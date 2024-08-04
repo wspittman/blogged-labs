@@ -23,7 +23,7 @@ export const Home = () => {
           </Typography>
           <ul>
             {data.map((blog) => (
-              <li key={blog.id}>
+              <li key={blog._id}>
                 <Link
                   underline="hover"
                   onClick={(e) => {

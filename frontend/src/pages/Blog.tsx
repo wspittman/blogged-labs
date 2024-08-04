@@ -17,7 +17,7 @@ export const Blog = () => {
     isError,
   } = useQuery({
     queryKey: ["posts", blogName],
-    queryFn: () => getPosts(blogData?.id ?? ""),
+    queryFn: () => getPosts(blogData?._id ?? ""),
     enabled: !!blogData,
     refetchOnMount: false,
   });
@@ -31,7 +31,7 @@ export const Blog = () => {
       {posts && (
         <ul>
           {posts.map((post) => (
-            <li key={post.id}>
+            <li key={post._id}>
               <Typography variant="h6">{post.title}</Typography>
               <Typography variant="body1">{post.content}</Typography>
             </li>
