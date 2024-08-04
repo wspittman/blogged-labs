@@ -1,57 +1,41 @@
 import { Typography } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
+import { getBlogs, getPosts } from "../services/api";
 
 export const Blog = () => {
   const { blogName } = useParams();
-
-  const blogData = [
-    {
-      id: 1,
-      title: "Blogged Labs",
-      description: "A blog about software development and technology.",
-    },
-    {
-      id: 2,
-      title: "React Query",
-      description: "A blog about React Query.",
-    },
-    {
-      id: 3,
-      title: "React Router",
-      description: "A blog about React Router.",
-    },
-  ].find((x) => x.title === blogName);
-
-  const posts = [
-    {
-      id: 1,
-      title: "React Query - Introduction",
-      content: "An introduction to React Query.",
-    },
-    {
-      id: 2,
-      title: "React Query - Usage",
-      content: "How to use React Query.",
-    },
-    {
-      id: 3,
-      title: "React Query - Advanced",
-      content: "Advanced React Query techniques.",
-    },
-  ];
+  const { data: blogs } = useQuery({
+    queryKey: ["blogs"],
+    queryFn: getBlogs,
+  });
+  const blogData = blogs?.find((x) => x.title === blogName);
+  const {
+    data: posts,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["posts", blogName],
+    queryFn: () => getPosts(blogData?.id ?? ""),
+    enabled: !!blogData,
+  });
 
   return (
     <div>
       <Typography variant="h3">{blogData?.title}</Typography>
       <Typography variant="h6">{blogData?.description}</Typography>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.id}>
-            <Typography variant="h6">{post.title}</Typography>
-            <Typography variant="body1">{post.content}</Typography>
-          </li>
-        ))}
-      </ul>
+      {isLoading && <Typography>Loading...</Typography>}
+      {isError && <Typography>Error fetching posts</Typography>}
+      {posts && (
+        <ul>
+          {posts.map((post) => (
+            <li key={post.id}>
+              <Typography variant="h6">{post.title}</Typography>
+              <Typography variant="body1">{post.content}</Typography>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
