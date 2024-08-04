@@ -1,7 +1,8 @@
 import Box from "@mui/material/Box";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Header } from "./frame/Header";
+import { Blog } from "./pages/Blog";
 import { Home } from "./pages/Home";
 
 const queryClient = new QueryClient();
@@ -18,7 +19,11 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Header />
-          <Home />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/:blogName" element={<Blog />} />
+            <Route path="/:blogName/:postName" element={<Home />} />
+          </Routes>
         </BrowserRouter>
       </QueryClientProvider>
     </Box>
