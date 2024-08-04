@@ -25,6 +25,6 @@ export const getPosts = async (id: string) => {
   return response.data as {
     id: string;
     title: string;
-    content: string;
+    content?: string;
   }[];
 };
