@@ -8,6 +8,7 @@ export const Home = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["blogs"],
     queryFn: getBlogs,
+    refetchOnMount: false,
   });
 
   return (
@@ -25,7 +26,6 @@ export const Home = () => {
               <li key={blog.id}>
                 <Link
                   underline="hover"
-                  href={`/${blog.title}`}
                   onClick={(e) => {
                     e.preventDefault();
                     navigate(`/${blog.title}`);

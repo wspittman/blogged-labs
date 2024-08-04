@@ -18,7 +18,6 @@ export const Header = (): JSX.Element => {
       underline="hover"
       variant="h6"
       color="white"
-      href="/"
       onClick={(e) => {
         e.preventDefault();
         navigate("/");
@@ -39,7 +38,6 @@ export const Header = (): JSX.Element => {
           key={url}
           underline="hover"
           color="white"
-          href={url}
           onClick={(e) => {
             e.preventDefault();
             navigate(url);

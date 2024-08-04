@@ -8,6 +8,7 @@ export const Blog = () => {
   const { data: blogs } = useQuery({
     queryKey: ["blogs"],
     queryFn: getBlogs,
+    refetchOnMount: false,
   });
   const blogData = blogs?.find((x) => x.title === blogName);
   const {
@@ -18,6 +19,7 @@ export const Blog = () => {
     queryKey: ["posts", blogName],
     queryFn: () => getPosts(blogData?.id ?? ""),
     enabled: !!blogData,
+    refetchOnMount: false,
   });
 
   return (
